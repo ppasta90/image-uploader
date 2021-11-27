@@ -1,9 +1,55 @@
-import { useState } from "react";
-import logo from "./logo.svg";
+import { useEffect, useRef, useState } from "react";
 import "./App.css";
-import { Box, Image, Text, Button, VStack } from "@chakra-ui/react";
+import { Box, Image, Text, Input, VStack } from "@chakra-ui/react";
 
 function App() {
+  const [selectedFile, setSelectedFile] = useState(null);
+  //const [errorMessage, setErrorMessage] = useState("");
+
+  useEffect(() => {
+    console.log("selectedFile :", selectedFile);
+  }, [selectedFile]);
+
+  const dragOver = (e) => {
+    e.preventDefault();
+  };
+
+  const dragEnter = (e) => {
+    e.preventDefault();
+  };
+
+  const dragLeave = (e) => {
+    e.preventDefault();
+  };
+
+  const validateFile = (file) => {
+    const validTypes = ["image/jpeg", "image/jpg", "image/png"];
+    if (validTypes.indexOf(file.type) === -1) {
+      alert("file not valid");
+      return false;
+    } else if (file.size > 2000000) {
+      alert("file too big");
+      return false;
+    }
+    return true;
+  };
+
+  const fileDrop = (e) => {
+    e.preventDefault();
+    const file = e.dataTransfer.files[0];
+    if (file) {
+      validateFile(file);
+      setSelectedFile(file);
+    }
+  };
+
+  const inputRef = useRef();
+  const inputClicked = () => {
+    inputRef?.current?.click();
+    if (inputRef?.current?.files) {
+      setSelectedFile(inputRef?.current?.files[0]);
+    }
+  };
   return (
     <VStack
       textAlign="center"
@@ -30,6 +76,10 @@ function App() {
         border="1px dashed #97BEF4"
         p="2rem 4rem"
         borderRadius="12px"
+        onDragOver={dragOver}
+        onDragEnter={dragEnter}
+        onDragLeave={dragLeave}
+        onDrop={fileDrop}
       >
         <Image src="https://via.placeholder.com/250x150" />
         <Text fontSize="12px" color="rgba(130, 130, 130, 1)">
@@ -39,19 +89,21 @@ function App() {
       <Text fontSize="12px" color="rgba(130, 130, 130, 1)">
         Or
       </Text>
-      <Box w="100px" m="0 auto">
-        <Button
-          p="8px"
-          bg="#2F80ED"
-          borderRadius="8px"
-          fontWeight="500"
-          fontSize="12px"
-          w="100%"
-          fontFamily="Noto Sans"
-          color="white"
-        >
-          Choose a file
-        </Button>
+      <Box
+        w="100px"
+        m="0 auto"
+        p="18px"
+        bg="#2F80ED"
+        borderRadius="8px"
+        fontWeight="500"
+        fontSize="12px"
+        fontFamily="Noto Sans"
+        color="white"
+        onClick={inputClicked}
+        cursor="pointer"
+      >
+        Choose a file
+        <Input display="none" ref={inputRef} type="file" />
       </Box>
     </VStack>
   );
