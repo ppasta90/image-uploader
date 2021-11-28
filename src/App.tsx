@@ -50,6 +50,11 @@ function App() {
       setSelectedFile(inputRef?.current?.files[0]);
     }
   };
+
+  const handleUploadFile = (e) => {
+    const file = e.target.files[0];
+    if (validateFile(file)) setSelectedFile(file);
+  };
   return (
     <VStack
       textAlign="center"
@@ -103,7 +108,12 @@ function App() {
         cursor="pointer"
       >
         Choose a file
-        <Input display="none" ref={inputRef} type="file" />
+        <Input
+          display="none"
+          ref={inputRef}
+          type="file"
+          onChange={handleUploadFile}
+        />
       </Box>
     </VStack>
   );
