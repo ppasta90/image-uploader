@@ -3,4 +3,7 @@
 }
 #root {
   background-color: #FAFAFB;
+  height: 100vh;
+  display: grid;
+  place-items: center;
 }

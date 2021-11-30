@@ -1,10 +1,19 @@
 import { useEffect, useRef, useState } from "react";
 import "./App.css";
-import { Box, Image, Text, Input, VStack } from "@chakra-ui/react";
+import {
+  Box,
+  Image,
+  Text,
+  Input,
+  VStack,
+  Progress,
+  Flex,
+} from "@chakra-ui/react";
 
 function App() {
   const [selectedFile, setSelectedFile] = useState(null);
   //const [errorMessage, setErrorMessage] = useState("");
+  const [isLoading, setIsLoading] = useState("");
 
   useEffect(() => {
     console.log("selectedFile :", selectedFile);
@@ -54,69 +63,76 @@ function App() {
   const handleUploadFile = (e) => {
     const file = e.target.files[0];
     if (validateFile(file)) setSelectedFile(file);
+    setIsLoading("loading");
   };
   return (
-    <VStack
-      textAlign="center"
-      w="30%"
-      h="50vh"
-      position="absolute"
-      transform="translate(-50%, -50%)"
-      top="50%"
-      left="50%"
-      borderRadius="12px"
-      boxShadow="0px 4px 12px rgba(0, 0, 0, 0.1)"
-      py="2rem"
-    >
-      <Text fontSize="18px">Upload your image</Text>
-      <Text color="rgba(130, 130, 130, 1)" fontSize="10px">
-        File should be Jpg, Png, ...
-      </Text>
-      <VStack
-        w="60%"
-        h="50%"
-        justify="space-around"
-        m="0 auto"
-        bg="#F6F8FB"
-        border="1px dashed #97BEF4"
-        p="2rem 4rem"
-        borderRadius="12px"
-        onDragOver={dragOver}
-        onDragEnter={dragEnter}
-        onDragLeave={dragLeave}
-        onDrop={fileDrop}
-      >
-        <Image src="https://via.placeholder.com/250x150" />
-        <Text fontSize="12px" color="rgba(130, 130, 130, 1)">
-          Drag & Drop your image here
-        </Text>
-      </VStack>
-      <Text fontSize="12px" color="rgba(130, 130, 130, 1)">
-        Or
-      </Text>
-      <Box
-        w="100px"
-        m="0 auto"
-        p="18px"
-        bg="#2F80ED"
-        borderRadius="8px"
-        fontWeight="500"
-        fontSize="12px"
-        fontFamily="Noto Sans"
-        color="white"
-        onClick={inputClicked}
-        cursor="pointer"
-      >
-        Choose a file
-        <Input
-          display="none"
-          ref={inputRef}
-          type="file"
-          onChange={handleUploadFile}
-        />
-      </Box>
-    </VStack>
+    <>
+      {isLoading === "loading" ? (
+        <Box w="25%">
+          <Progress hasStripe isIndeterminate isAnimated />
+        </Box>
+      ) : (
+        <Flex
+          id="stocazzo"
+          direction="column"
+          textAlign="center"
+          w="30%"
+          margin="0 auto"
+          h="50vh"
+          borderRadius="12px"
+          boxShadow="0px 4px 12px rgba(0, 0, 0, 0.1)"
+          py="2rem"
+        >
+          <Text fontSize="18px">Upload your image</Text>
+          <Text color="rgba(130, 130, 130, 1)" fontSize="10px">
+            File should be Jpg, Png, ...
+          </Text>
+          <VStack
+            w="60%"
+            h="50%"
+            justify="space-around"
+            m="0 auto"
+            bg="#F6F8FB"
+            border="1px dashed #97BEF4"
+            p="2rem 4rem"
+            borderRadius="12px"
+            onDragOver={dragOver}
+            onDragEnter={dragEnter}
+            onDragLeave={dragLeave}
+            onDrop={fileDrop}
+          >
+            <Image src="https://via.placeholder.com/250x150" />
+            <Text fontSize="12px" color="rgba(130, 130, 130, 1)">
+              Drag & Drop your image here
+            </Text>
+          </VStack>
+          <Text fontSize="12px" color="rgba(130, 130, 130, 1)">
+            Or
+          </Text>
+          <Box
+            w="200px"
+            m="0 auto"
+            p="18px"
+            bg="#2F80ED"
+            borderRadius="8px"
+            fontWeight="500"
+            fontSize="12px"
+            fontFamily="Noto Sans"
+            color="white"
+            onClick={inputClicked}
+            cursor="pointer"
+          >
+            Choose a file
+            <Input
+              display="none"
+              ref={inputRef}
+              type="file"
+              onChange={handleUploadFile}
+            />
+          </Box>
+        </Flex>
+      )}
+    </>
   );
 }
-
 export default App;
