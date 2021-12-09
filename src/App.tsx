@@ -73,10 +73,11 @@ function App() {
         </Box>
       ) : (
         <Flex
-          id="stocazzo"
           direction="column"
           textAlign="center"
-          w="30%"
+          justify="space-around"
+          minW="30%"
+          w="50%"
           margin="0 auto"
           h="50vh"
           borderRadius="12px"
@@ -101,7 +102,7 @@ function App() {
             onDragLeave={dragLeave}
             onDrop={fileDrop}
           >
-            <Image src="https://via.placeholder.com/250x150" />
+            <Image src="https://via.placeholder.com/" />
             <Text fontSize="12px" color="rgba(130, 130, 130, 1)">
               Drag & Drop your image here
             </Text>
@@ -110,7 +111,7 @@ function App() {
             Or
           </Text>
           <Box
-            w="200px"
+            w={["80px", "160px", "200px", "240px"]}
             m="0 auto"
             p="18px"
             bg="#2F80ED"
