@@ -77,9 +77,9 @@ function App() {
           textAlign="center"
           justify="space-around"
           minW="30%"
-          w="50%"
+          w={["100%", "70%", "50%", "40%"]}
           margin="0 auto"
-          h="50vh"
+          h={["100vh", "50vh"]}
           borderRadius="12px"
           boxShadow="0px 4px 12px rgba(0, 0, 0, 0.1)"
           py="2rem"
@@ -89,8 +89,8 @@ function App() {
             File should be Jpg, Png, ...
           </Text>
           <VStack
-            w="60%"
-            h="50%"
+            w={["70%", "70%", "50%", "50%", "40%"]}
+            h={["50%", "50%"]}
             justify="space-around"
             m="0 auto"
             bg="#F6F8FB"
