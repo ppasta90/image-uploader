@@ -89,7 +89,7 @@ function App() {
             File should be Jpg, Png, ...
           </Text>
           <VStack
-            w={["70%", "70%", "50%", "50%", "40%"]}
+            w={["70%", "70%", "50%", "50%", "40%  "]}
             h={["50%", "50%"]}
             justify="space-around"
             m="0 auto"
