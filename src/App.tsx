@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import React, { DragEventHandler, useEffect, useRef, useState } from "react";
 import "./App.css";
 import {
   Box,
@@ -11,7 +11,7 @@ import {
 } from "@chakra-ui/react";
 
 function App() {
-  const [selectedFile, setSelectedFile] = useState(null);
+  const [selectedFile, setSelectedFile] = useState<File>();
   //const [errorMessage, setErrorMessage] = useState("");
   const [isLoading, setIsLoading] = useState("");
 
@@ -19,19 +19,19 @@ function App() {
     console.log("selectedFile :", selectedFile);
   }, [selectedFile]);
 
-  const dragOver = (e) => {
+  const dragOver = (e: React.MouseEvent) => {
     e.preventDefault();
   };
 
-  const dragEnter = (e) => {
+  const dragEnter = (e: React.MouseEvent) => {
     e.preventDefault();
   };
 
-  const dragLeave = (e) => {
+  const dragLeave = (e: React.MouseEvent) => {
     e.preventDefault();
   };
 
-  const validateFile = (file) => {
+  const validateFile = (file: File) => {
     const validTypes = ["image/jpeg", "image/jpg", "image/png"];
     if (validTypes.indexOf(file.type) === -1) {
       alert("file not valid");
@@ -43,16 +43,16 @@ function App() {
     return true;
   };
 
-  const fileDrop = (e) => {
-    e.preventDefault();
-    const file = e.dataTransfer.files[0];
+  const fileDrop = (e: React.DragEvent<HTMLDivElement>) => {
+    const file = e.dataTransfer?.files[0];
     if (file) {
       validateFile(file);
       setSelectedFile(file);
+      setIsLoading("loading");
     }
   };
 
-  const inputRef = useRef();
+  const inputRef = useRef<HTMLInputElement>(null);
   const inputClicked = () => {
     inputRef?.current?.click();
     if (inputRef?.current?.files) {
@@ -60,8 +60,9 @@ function App() {
     }
   };
 
-  const handleUploadFile = (e) => {
-    const file = e.target.files[0];
+  const handleUploadFile = (e: React.ChangeEvent) => {
+    const target = e.target as HTMLInputElement;
+    const file = (target.files as FileList)[0];
     if (validateFile(file)) setSelectedFile(file);
     setIsLoading("loading");
   };
