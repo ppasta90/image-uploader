@@ -9,11 +9,14 @@ import {
   Progress,
   Flex,
 } from "@chakra-ui/react";
+import axios from "axios";
 
 function App() {
   const [selectedFile, setSelectedFile] = useState<File>();
   //const [errorMessage, setErrorMessage] = useState("");
-  const [isLoading, setIsLoading] = useState("");
+  const [isLoading, setIsLoading] = useState<"idle" | "loading" | "completed">(
+    "idle"
+  );
 
   useEffect(() => {
     console.log("selectedFile :", selectedFile);
@@ -42,16 +45,35 @@ function App() {
     }
     return true;
   };
-
+  /* UPLOAD BY DRAG AND DROP */
   const fileDrop = (e: React.DragEvent<HTMLDivElement>) => {
+    e.preventDefault();
     const file = e.dataTransfer?.files[0];
     if (file) {
       validateFile(file);
       setSelectedFile(file);
-      setIsLoading("loading");
+      uploadImage(file);
     }
   };
-
+  /* UPLOAD BY CLICKING BUTTON */
+  const handleUploadFile = (e: React.ChangeEvent) => {
+    const target = e.target as HTMLInputElement;
+    const file = (target.files as FileList)[0];
+    if (validateFile(file)) setSelectedFile(file);
+    uploadImage(file);
+  };
+  /* UPLOADING TO CLOUDINARY */
+  const uploadImage = (file: File) => {
+    setIsLoading("loading");
+    const formData = new FormData();
+    formData.append("file", file);
+    formData.append("upload_preset", "imageUpload");
+    axios
+      .post("https://api.cloudinary.com/v1_1/pasta/image/upload", formData)
+      .then(() => setIsLoading("completed"))
+      .catch((err) => alert(err));
+  };
+  /* MANAGING CLICK ON BUTTON */
   const inputRef = useRef<HTMLInputElement>(null);
   const inputClicked = () => {
     inputRef?.current?.click();
@@ -60,19 +82,14 @@ function App() {
     }
   };
 
-  const handleUploadFile = (e: React.ChangeEvent) => {
-    const target = e.target as HTMLInputElement;
-    const file = (target.files as FileList)[0];
-    if (validateFile(file)) setSelectedFile(file);
-    setIsLoading("loading");
-  };
   return (
     <>
-      {isLoading === "loading" ? (
+      {isLoading === "loading" && (
         <Box w="25%">
           <Progress hasStripe isIndeterminate isAnimated />
         </Box>
-      ) : (
+      )}
+      {isLoading === "idle" && (
         <Flex
           direction="column"
           textAlign="center"
@@ -89,6 +106,7 @@ function App() {
           <Text color="rgba(130, 130, 130, 1)" fontSize="10px">
             File should be Jpg, Png, ...
           </Text>
+
           <VStack
             w={["70%", "70%", "50%", "50%", "40%  "]}
             h={["50%", "50%"]}
@@ -103,11 +121,15 @@ function App() {
             onDragLeave={dragLeave}
             onDrop={fileDrop}
           >
-            <Image src="https://via.placeholder.com/" />
+            <Image
+              src="https://via.placeholder.com/150x150"
+              objectFit="contain"
+            />
             <Text fontSize="12px" color="rgba(130, 130, 130, 1)">
               Drag & Drop your image here
             </Text>
           </VStack>
+
           <Text fontSize="12px" color="rgba(130, 130, 130, 1)">
             Or
           </Text>
