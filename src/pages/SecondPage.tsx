@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
-import { Flex, VStack, Box, Input, Text } from "@chakra-ui/react";
+import { Flex, VStack, Text } from "@chakra-ui/react";
 import { useParams } from "react-router-dom";
+// @ts-ignore
 import { Image } from "cloudinary-react";
 function SecondPage() {
   const { publicId } = useParams();
