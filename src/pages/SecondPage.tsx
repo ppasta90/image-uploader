@@ -1,14 +1,26 @@
-import { useEffect, useState } from "react";
-import { Flex, VStack, Text } from "@chakra-ui/react";
+import { useEffect, useRef, useState } from "react";
+import { Flex, Text, Box, Button } from "@chakra-ui/react";
 import { useParams } from "react-router-dom";
 // @ts-ignore
-import { Image } from "cloudinary-react";
+import { Image, CloudinaryContext } from "cloudinary-react";
 function SecondPage() {
   const { publicId } = useParams();
-  const [imageId, setImageId] = useState("");
+  const [imageId, setImageId] = useState<string>("");
+  const [copiedLink, setCopiedLink] = useState<string | null>("");
+  const linkRef = useRef<HTMLDivElement>(null);
+
+  function handleCopyLink() {
+    linkRef?.current?.firstChild &&
+      setCopiedLink(linkRef?.current?.firstChild.textContent);
+  }
+  useEffect(() => {
+    navigator.clipboard.writeText(copiedLink || "");
+  }, [copiedLink]);
+
   useEffect(() => {
     if (publicId) setImageId(publicId);
   }, []);
+
   return (
     <Flex
       direction="column"
@@ -20,25 +32,27 @@ function SecondPage() {
       h={["100vh", "50vh"]}
       borderRadius="12px"
       boxShadow="0px 4px 12px rgba(0, 0, 0, 0.1)"
-      py="2rem"
+      p="2rem 4rem"
     >
-      <Text fontSize="18px">Upload your image</Text>
-      <Text color="rgba(130, 130, 130, 1)" fontSize="10px">
-        File should be Jpg, Png, ...
-      </Text>
-
-      <VStack
-        w={["70%", "70%", "50%", "50%", "40%  "]}
-        h={["50%", "50%"]}
-        justify="space-around"
+      <Text fontSize="18px">Uploading successfull!</Text>
+      <CloudinaryContext>
+        <Image cloudName="pasta" publicId={imageId} width="100%" />
+      </CloudinaryContext>
+      <Box
+        ref={linkRef}
+        p="1rem"
+        w="80%"
         m="0 auto"
+        border="1 px solid grey "
+        boxShadow="0px 4px 12px rgba(0, 0, 0, 0.1)"
         bg="#F6F8FB"
-        border="1px dashed #97BEF4"
-        p="2rem 4rem"
-        borderRadius="12px"
+        borderRadius="8px"
+        textOverflow="ellipsis"
+        fontSize="8px"
       >
-        <Image cloudName="pasta" publicId={imageId} />
-      </VStack>
+        {`http://res.cloudinary.com/pasta/image/upload/v1641508935/${publicId}`}
+        <Button onClick={handleCopyLink}>Copy link</Button>
+      </Box>
     </Flex>
   );
 }

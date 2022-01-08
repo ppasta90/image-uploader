@@ -9,6 +9,7 @@ import {
   Progress,
   Flex,
 } from "@chakra-ui/react";
+import imagePlaceholder from "../images/image.svg";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 function FirstPage() {
@@ -66,6 +67,7 @@ function FirstPage() {
     axios
       .post("https://api.cloudinary.com/v1_1/pasta/image/upload", formData)
       .then((res) => {
+        console.log("res :", res);
         setIsLoading("idle");
         navigate(`${res.data.public_id}`);
       })
@@ -119,10 +121,7 @@ function FirstPage() {
             onDragLeave={dragLeave}
             onDrop={fileDrop}
           >
-            <Img
-              src="https://via.placeholder.com/150x150"
-              objectFit="contain"
-            />
+            <Img src={imagePlaceholder} objectFit="contain" />
             <Text fontSize="12px" color="rgba(130, 130, 130, 1)">
               Drag & Drop your image here
             </Text>
