@@ -12,6 +12,7 @@ function SecondPage() {
   function handleCopyLink() {
     linkRef?.current?.firstChild &&
       setCopiedLink(linkRef?.current?.firstChild.textContent);
+    alert("copied");
   }
   useEffect(() => {
     navigator.clipboard.writeText(copiedLink || "");
@@ -26,33 +27,36 @@ function SecondPage() {
       direction="column"
       textAlign="center"
       justify="space-around"
-      minW="30%"
-      w={["100%", "70%", "50%", "40%"]}
-      margin="0 auto"
-      h={["100vh", "50vh"]}
+      /* minW="30%" */
+      /* w="80%" */
+      //w={["100%", "70%", "50%", "40%"]}
+      /* margin="0 auto" */
+      //h={["100vh", "50vh"]}
       borderRadius="12px"
       boxShadow="0px 4px 12px rgba(0, 0, 0, 0.1)"
       p="2rem 4rem"
     >
       <Text fontSize="18px">Uploading successfull!</Text>
-      <CloudinaryContext>
-        <Image cloudName="pasta" publicId={imageId} width="100%" />
-      </CloudinaryContext>
-      <Box
+
+      <Image onClick={handleCopyLink} cloudName="pasta" publicId={imageId} />
+
+      <Flex
         ref={linkRef}
+        justify="space-between"
+        align="center"
         p="1rem"
-        w="80%"
         m="0 auto"
         border="1 px solid grey "
         boxShadow="0px 4px 12px rgba(0, 0, 0, 0.1)"
         bg="#F6F8FB"
         borderRadius="8px"
-        textOverflow="ellipsis"
-        fontSize="8px"
+        width="100%"
       >
-        {`http://res.cloudinary.com/pasta/image/upload/v1641508935/${publicId}`}
-        <Button onClick={handleCopyLink}>Copy link</Button>
-      </Box>
+        <Box textOverflow="ellipsis">{`http://res.cloudinary.com/pasta/image/upload/v1641508935/${publicId}`}</Box>
+        <Box>
+          <Button onClick={handleCopyLink}>Copy link</Button>
+        </Box>
+      </Flex>
     </Flex>
   );
 }

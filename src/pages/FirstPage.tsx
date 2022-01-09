@@ -122,9 +122,11 @@ function FirstPage() {
             onDrop={fileDrop}
           >
             <Img src={imagePlaceholder} objectFit="contain" />
-            <Text fontSize="12px" color="rgba(130, 130, 130, 1)">
-              Drag & Drop your image here
-            </Text>
+            <Box w="110%">
+              <Text fontSize="12px" color="rgba(130, 130, 130, 1)">
+                Drag & Drop your image here
+              </Text>
+            </Box>
           </VStack>
 
           <Text fontSize="12px" color="rgba(130, 130, 130, 1)">
