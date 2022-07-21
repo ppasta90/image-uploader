@@ -1,8 +1,10 @@
 import { useEffect, useRef, useState } from "react";
-import { Flex, Text, Box, Button } from "@chakra-ui/react";
+import { Flex, Text, Box, Button, VStack } from "@chakra-ui/react";
 import { useParams } from "react-router-dom";
+import { BsFillCheckCircleFill } from "react-icons/bs";
+
 // @ts-ignore
-import { Image, CloudinaryContext } from "cloudinary-react";
+import { Image, Transformation } from "cloudinary-react";
 function SecondPage() {
   const { publicId } = useParams();
   const [imageId, setImageId] = useState<string>("");
@@ -27,18 +29,42 @@ function SecondPage() {
       direction="column"
       textAlign="center"
       justify="space-around"
-      /* minW="30%" */
-      /* w="80%" */
-      //w={["100%", "70%", "50%", "40%"]}
-      /* margin="0 auto" */
-      //h={["100vh", "50vh"]}
       borderRadius="12px"
       boxShadow="0px 4px 12px rgba(0, 0, 0, 0.1)"
       p="2rem 4rem"
+      height={"70vh"}
+      background="white"
     >
-      <Text fontSize="18px">Uploading successfull!</Text>
+      <VStack
+        justifyContent="space-between"
+        /* border="1px solid red" */
+        height={"20%"}
+      >
+        <BsFillCheckCircleFill size={"4rem"} color="#219653" />
+        <Text fontSize="2rem" color="#4F4F4F">
+          Uploading successfull!
+        </Text>
+      </VStack>
 
-      <Image onClick={handleCopyLink} cloudName="pasta" publicId={imageId} />
+      <Box
+        style={{
+          width: "350px",
+          height: "250px",
+          display: "flex",
+          alignSelf: "center",
+        }}
+      >
+        <Image
+          responsive
+          onClick={handleCopyLink}
+          cloudName="pasta"
+          publicId={imageId}
+          loading="lazy"
+        >
+          <Transformation radius="12" crop="fill" width="350" height="250" />
+          <Transformation quality="auto" fetchFormat="auto" />
+        </Image>
+      </Box>
 
       <Flex
         ref={linkRef}

@@ -45,8 +45,7 @@ function FirstPage() {
   const fileDrop = (e: React.DragEvent<HTMLDivElement>) => {
     e.preventDefault();
     const file = e.dataTransfer?.files[0];
-    if (file) {
-      validateFile(file);
+    if (file && validateFile(file)) {
       setSelectedFile(file);
       uploadImage(file);
     }
@@ -55,8 +54,13 @@ function FirstPage() {
   const handleUploadFile = (e: React.ChangeEvent) => {
     const target = e.target as HTMLInputElement;
     const file = (target.files as FileList)[0];
-    if (validateFile(file)) setSelectedFile(file);
-    uploadImage(file);
+    if (validateFile(file)) {
+      setSelectedFile(file);
+      uploadImage(file);
+      return;
+    }
+    console.log("qui");
+    return;
   };
   /* UPLOADING TO CLOUDINARY */
   const uploadImage = (file: File) => {
