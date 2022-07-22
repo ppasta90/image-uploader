@@ -42,11 +42,11 @@ function FirstPage() {
         status: "error",
       });
       return false;
-    } else if (file.size > 2000000) {
+    } else if (file.size > 5000000) {
       toast({
         ...ToastConfig,
         title: "Error",
-        description: "Maximum size allowed: 2MB",
+        description: "Maximum size allowed: 5MB",
         status: "error",
       });
       return false;
@@ -93,7 +93,7 @@ function FirstPage() {
         toast({
           ...ToastConfig,
           title: "Error",
-          description: "Maximum size allowed: 2MB",
+          description: "Error during upload, retry later",
           status: "error",
         });
         setIsLoading("idle");
