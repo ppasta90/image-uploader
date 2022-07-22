@@ -129,8 +129,8 @@ function FirstPage() {
           boxShadow="0px 4px 12px rgba(0, 0, 0, 0.1)"
           py="2rem"
         >
-          <Text fontSize="18px">Upload your image</Text>
-          <Text color="rgba(130, 130, 130, 1)" fontSize="10px">
+          <Text fontSize="1.5rem">Upload your image</Text>
+          <Text color="rgba(130, 130, 130, 1)" fontSize="1rem">
             File should be Jpg, Png, ...
           </Text>
 
@@ -150,13 +150,13 @@ function FirstPage() {
           >
             <Img src={imagePlaceholder} objectFit="contain" />
             <Box w="110%">
-              <Text fontSize="12px" color="rgba(130, 130, 130, 1)">
+              <Text fontSize="0.8rem" color="rgba(130, 130, 130, 1)">
                 Drag & Drop your image here
               </Text>
             </Box>
           </VStack>
 
-          <Text fontSize="12px" color="rgba(130, 130, 130, 1)">
+          <Text fontSize="0.8rem" color="rgba(130, 130, 130, 1)">
             Or
           </Text>
           <Box
@@ -166,7 +166,7 @@ function FirstPage() {
             bg="#2F80ED"
             borderRadius="8px"
             fontWeight="500"
-            fontSize="12px"
+            fontSize="0.8rem"
             fontFamily="Noto Sans"
             color="white"
             onClick={inputClicked}

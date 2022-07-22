@@ -3,7 +3,7 @@ import { Flex, Text, Box, Button, VStack, Tooltip } from "@chakra-ui/react";
 import { useParams } from "react-router-dom";
 import { BsFillCheckCircleFill } from "react-icons/bs";
 // @ts-ignore
-import { Image, Transformation } from "cloudinary-react";
+import { Image, Transformation, Placeholder } from "cloudinary-react";
 function SecondPage() {
   const { publicId } = useParams();
   const [imageId, setImageId] = useState<string>("");
@@ -35,10 +35,12 @@ function SecondPage() {
       p="2rem 4rem"
       height={"70vh"}
       background="white"
+      w={["100%", "70%", "50%", "40%"]}
+      h={["100vh", "50vh"]}
     >
       <VStack justifyContent="space-between" height={"20%"}>
         <BsFillCheckCircleFill size={"4rem"} color="#219653" />
-        <Text fontSize="2rem" color="#4F4F4F">
+        <Text fontSize="1.5 rem" color="#4F4F4F">
           Uploading successfull!
         </Text>
       </VStack>
@@ -52,8 +54,9 @@ function SecondPage() {
         }}
       >
         <Image responsive cloudName="pasta" publicId={imageId} loading="lazy">
-          <Transformation radius="12" width="350" height="250" />
+          <Transformation responsive radius="12" />
           <Transformation quality="auto" fetchFormat="auto" />
+          <Placeholder type="pixelate" />
         </Image>
       </Box>
 
@@ -69,10 +72,19 @@ function SecondPage() {
         borderRadius="8px"
         width="100%"
       >
-        <Box textOverflow="ellipsis">{`http://res.cloudinary.com/pasta/image/upload/v1641508935/${publicId}`}</Box>
+        <Box
+          whiteSpace={"nowrap"}
+          overflow="hidden"
+          textOverflow="ellipsis"
+        >{`http://res.cloudinary.com/pasta/image/upload/v1641508935/${publicId}`}</Box>
         <Box onBlur={() => setCopied(false)}>
           <Tooltip label={copied ? "Copied!" : "Copy"} closeOnClick={false}>
-            <Button color="white" bg={"#2F80ED"} onClick={handleCopyLink}>
+            <Button
+              _hover={{ background: "#2F80ED" }}
+              color="white"
+              bg={"#2F80ED"}
+              onClick={handleCopyLink}
+            >
               Copy link
             </Button>
           </Tooltip>
