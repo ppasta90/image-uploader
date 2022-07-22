@@ -54,13 +54,7 @@ function SecondPage() {
           alignSelf: "center",
         }}
       >
-        <Image
-          responsive
-          onClick={handleCopyLink}
-          cloudName="pasta"
-          publicId={imageId}
-          loading="lazy"
-        >
+        <Image responsive cloudName="pasta" publicId={imageId} loading="lazy">
           <Transformation radius="12" crop="fill" width="350" height="250" />
           <Transformation quality="auto" fetchFormat="auto" />
         </Image>

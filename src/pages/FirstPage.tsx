@@ -8,16 +8,18 @@ import {
   VStack,
   Progress,
   Flex,
+  useToast,
 } from "@chakra-ui/react";
 import imagePlaceholder from "../images/image.svg";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import { ToastConfig } from "../constants";
+
 function FirstPage() {
   const [selectedFile, setSelectedFile] = useState<File>();
-  //const [errorMessage, setErrorMessage] = useState("");
   const [isLoading, setIsLoading] = useState<"idle" | "loading">("idle");
   let navigate = useNavigate();
-
+  const toast = useToast();
   const dragOver = (e: React.MouseEvent) => {
     e.preventDefault();
   };
@@ -33,14 +35,25 @@ function FirstPage() {
   const validateFile = (file: File) => {
     const validTypes = ["image/jpeg", "image/jpg", "image/png"];
     if (validTypes.indexOf(file.type) === -1) {
-      alert("file not valid");
+      toast({
+        ...ToastConfig,
+        title: "Error",
+        description: "Invalid type of file",
+        status: "error",
+      });
       return false;
     } else if (file.size > 2000000) {
-      alert("file too big");
+      toast({
+        ...ToastConfig,
+        title: "Error",
+        description: "Maximum size allowed: 2MB",
+        status: "error",
+      });
       return false;
     }
     return true;
   };
+
   /* UPLOAD BY DRAG AND DROP */
   const fileDrop = (e: React.DragEvent<HTMLDivElement>) => {
     e.preventDefault();
@@ -50,6 +63,7 @@ function FirstPage() {
       uploadImage(file);
     }
   };
+
   /* UPLOAD BY CLICKING BUTTON */
   const handleUploadFile = (e: React.ChangeEvent) => {
     const target = e.target as HTMLInputElement;
@@ -62,6 +76,7 @@ function FirstPage() {
     console.log("qui");
     return;
   };
+
   /* UPLOADING TO CLOUDINARY */
   const uploadImage = (file: File) => {
     setIsLoading("loading");
@@ -71,12 +86,20 @@ function FirstPage() {
     axios
       .post("https://api.cloudinary.com/v1_1/pasta/image/upload", formData)
       .then((res) => {
-        console.log("res :", res);
         setIsLoading("idle");
         navigate(`${res.data.public_id}`);
       })
-      .catch((err) => alert(err));
+      .catch(() => {
+        toast({
+          ...ToastConfig,
+          title: "Error",
+          description: "Maximum size allowed: 2MB",
+          status: "error",
+        });
+        setIsLoading("idle");
+      });
   };
+
   /* MANAGING CLICK ON BUTTON */
   const inputRef = useRef<HTMLInputElement>(null);
   const inputClicked = () => {
