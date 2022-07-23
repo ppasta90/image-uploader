@@ -160,7 +160,7 @@ function FirstPage() {
             Or
           </Text>
           <Box
-            w={["80px", "160px", "200px", "240px"]}
+            w={["120px", "160px", "200px", "240px"]}
             m="0 auto"
             p="18px"
             bg="#2F80ED"

@@ -37,6 +37,7 @@ function SecondPage() {
       background="white"
       w={["100%", "70%", "50%", "40%"]}
       h={["100vh", "50vh"]}
+      overflow="hidden"
     >
       <VStack justifyContent="space-between" height={"20%"}>
         <BsFillCheckCircleFill size={"4rem"} color="#219653" />
